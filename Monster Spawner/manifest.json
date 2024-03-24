@@ -1,0 +1,10 @@
+﻿{
+  "Name": "Monster Spawner",
+  "Author": "cakeymat",
+  "Version": "1.0.0",
+  "Description": "Spawn any monster you want, anywhere you want!",
+  "UniqueID": "cakeymat.MonsterSpawner",
+  "EntryDll": "Monster Spawner.dll",
+  "MinimumApiVersion": "4.0",
+  "UpdateKeys": [ ]
+}
