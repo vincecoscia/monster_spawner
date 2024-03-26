@@ -78,7 +78,9 @@ namespace Monster_Spawner
             if (monster == MonsterData.Monster.Duggy || monster == MonsterData.Monster.WildernessGolem || monster == MonsterData.Monster.MagmaDuggy)
             {
                 // These specific monsters use the grab tile position, which is already in tile coordinates.
-                return cursorPosition.GrabTile * new Vector2(Game1.tileSize, Game1.tileSize);
+                // return cursorPosition.GrabTile * new Vector2(Game1.tileSize, Game1.tileSize);
+                // return cursorPosition.Tile * new Vector2(Game1.tileSize, Game1.tileSize);
+                return Game1.currentCursorTile;
             }
             else
             {
@@ -90,7 +92,7 @@ namespace Monster_Spawner
 
         private Vector2 WhereToDraw() {
             if (monster == MonsterData.Monster.Duggy || monster == MonsterData.Monster.WildernessGolem || monster == MonsterData.Monster.MagmaDuggy) {
-                return new Vector2((Game1.currentCursorTile.X * Game1.tileSize) - Game1.viewport.X, (Game1.currentCursorTile.Y * Game1.tileSize) - Game1.viewport.Y - Game1.tileSize / 2);
+                return new Vector2(Game1.getMouseX() - monsterData.Texturewidth, Game1.getMouseY() - monsterData.Textureheight * 2.2f);
             } else {
                 return new Vector2(Game1.getMouseX() - monsterData.Texturewidth, Game1.getMouseY() - monsterData.Textureheight * 2.2f);
             }
