@@ -150,5 +150,20 @@ namespace Monster_Spawner.MonsterSpawning
                 Game1.addHUDMessage(new HUDMessage("Removed " + toKill.Count + " Monsters to prevent saving-errors.", 2));
             }
         }
+
+        public void KillMonster(Monster monster)
+        {
+            spawnedMonsters.Remove(monster);
+            Game1.currentLocation.characters.Remove(monster);
+        }
+
+        public void ClearMonsters()
+        {
+            foreach (Monster m in spawnedMonsters)
+            {
+                Game1.currentLocation.characters.Remove(m);
+            }
+            spawnedMonsters.Clear();
+        }
     }
 }

@@ -28,6 +28,8 @@ namespace Monster_Spawner
             helper.ConsoleCommands.Add("monster_menu", "Shows a menu for spawning monsters", MonsterMenu);
             helper.ConsoleCommands.Add("farmer_position", "Prints the Farmer's current position", FarmerPosition);
             helper.ConsoleCommands.Add("remove_prismatic_jelly", "Removes all Prismatic Jelly from your inventory", DeleteJelly);
+            // Command to cleaar all monsters
+            helper.ConsoleCommands.Add("clear_monsters", "Clears all monsters from the current location", (command, args) => Spawner.GetInstance().ClearMonsters());
 
             config = helper.ReadConfig<ModConfig>();
 
@@ -178,5 +180,6 @@ namespace Monster_Spawner
             }
             Monitor.Log($"Removed {amount} Prismatic {(amount == 1 ? "Jelly" : "Jellies")} from your inventory.", LogLevel.Info);
         }
+
     }
 }
