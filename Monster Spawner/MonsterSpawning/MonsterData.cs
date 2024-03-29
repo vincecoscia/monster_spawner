@@ -103,7 +103,7 @@ namespace Monster_Spawner.Monsters
             { Monster.Mummy, new MonsterData("Mummy", typeof(Mummy), new object[] { null }, "Mummy", 16, 32) },
 
             { Monster.RockCrab, new MonsterData("Rock Crab", typeof(RockCrab), new object[] { null }, "Rock Crab") },
-            // { Monster.LavaCrab, new MonsterData("Lava Crab", typeof(LavaCrab), new object[] { null }, "Lava Crab") },
+             { Monster.LavaCrab, new MonsterData("Lava Crab", typeof(RockCrab), new object[] { null, "Lava Crab" }, "Lava Crab") },
             { Monster.IridiumCrab, new MonsterData("Iridium Crab", typeof(RockCrab), new object[] { null, "Iridium Crab" }, "Iridium Crab") },
 
             { Monster.StoneGolem, new MonsterData("Stone Golem", typeof(RockGolem), new object[] { null }, "Stone Golem") },
