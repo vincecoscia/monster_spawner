@@ -20,12 +20,14 @@ namespace Monster_Spawner.MonsterMenu
         private readonly int defaultTextureWidth = 8 * 4; //Account for texture scaling
         private readonly int defaultTextureHeight = 8 * 4;
         private readonly int clearing = 8;
+        private Func<int> getSpawnQuantity;
 
-        public MonsterSelectionTabNew(int x, int y, int width, int height, IModHelper helper) :
+        public MonsterSelectionTabNew(int x, int y, int width, int height, IModHelper helper, Func<int> getSpawnQuantityFunc) :
             base(x, y, width, height)
         {
             LayoutMonsters(MonsterData.ToClickableMonsterComponents());
             this.Helper = helper;
+            this.getSpawnQuantity = getSpawnQuantityFunc;
         }
 
         private void LayoutMonsters(List<ClickableMonsterComponent> components)
@@ -249,7 +251,7 @@ namespace Monster_Spawner.MonsterMenu
                     if (monster.GetType() == typeof(ClickableMonsterComponent) && monster.containsPoint(x, y))
                     {
                         ClickableMonsterComponent m = (ClickableMonsterComponent)monster;
-                        Game1.activeClickableMenu = new MonsterPlaceMenu(m.Monster, m.Sprite, this.Helper);
+                        Game1.activeClickableMenu = new MonsterPlaceMenu(m.Monster, m.Sprite, this.Helper, this.getSpawnQuantity);
                     }
                 }
                 base.receiveLeftClick(x, y, true);

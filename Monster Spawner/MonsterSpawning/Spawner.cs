@@ -72,6 +72,7 @@ namespace Monster_Spawner.MonsterSpawning
 
                 args[0] = location;
                 Monster m = (Monster)Activator.CreateInstance(monsterData.Type, args);
+
                 m.currentLocation = Game1.currentLocation;
 
                 if (monster == MonsterData.Monster.GraySlime)

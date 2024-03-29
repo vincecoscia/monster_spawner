@@ -20,11 +20,14 @@ namespace Monster_Spawner
 
         private readonly AnimatedSprite? monsterTexture;
         private readonly IModHelper Helper;
+        private Func<int> getSpawnQuantity;
 
-        public MonsterPlaceMenu(MonsterData.Monster monster, AnimatedSprite texture, IModHelper helper)
+
+        public MonsterPlaceMenu(MonsterData.Monster monster, AnimatedSprite texture, IModHelper helper, Func<int> getSpawnQuantityFunc)
             : base(0, 0, Game1.viewport.Width, Game1.viewport.Height)
         {
             this.Helper = helper;
+            this.getSpawnQuantity = getSpawnQuantityFunc;
 
             if (monster != MonsterData.Monster.CursedDoll)
             {
@@ -40,35 +43,53 @@ namespace Monster_Spawner
             //Warn users
             if (monster == MonsterData.Monster.ArmoredBug)
             {
-              Game1.addHUDMessage(new HUDMessage("Be aware that armored bugs are unkillable.", 2));
+                Game1.addHUDMessage(new HUDMessage("Be aware that armored bugs are unkillable.", 2));
             }
             else if (monster == MonsterData.Monster.Duggy || monster == MonsterData.Monster.MagmaDuggy)
             {
-              if (monsterTexture != null)
-              {
-                monsterTexture.CurrentFrame = 5;
-              }
-              Game1.addHUDMessage(new HUDMessage("Duggies can only be spawned on diggable tiles.", 2));
+                if (monsterTexture != null)
+                {
+                    monsterTexture.CurrentFrame = 5;
+                }
+                Game1.addHUDMessage(new HUDMessage("Duggies can only be spawned on diggable tiles.", 2));
             }
 
             Game1.playSound("bigSelect");
-            Game1.addHUDMessage(new HUDMessage($"Click anywhere to spawn a {monsterData.Displayname}", 0));
+            Game1.addHUDMessage(new HUDMessage($"Click anywhere to spawn a {monsterData.Displayname}", 2));
         }
 
         public override void receiveLeftClick(int x, int y, bool playSound = true)
         {
+            int spawnQuantity = this.getSpawnQuantity();
             if (ok.containsPoint(x, y))
             {
                 Game1.exitActiveMenu();
                 Game1.playSound("bigDeSelect");
                 return;
             }
-            if (Spawner.GetInstance().SpawnMonster(monster, WhereToPlace()))
+
+            // Loop based on the selected quantity to spawn multiple monsters
+            int successfulSpawns = 0;
+            for (int i = 0; i < spawnQuantity; i++)
             {
-                Game1.playSound("axe");
+                if (Spawner.GetInstance().SpawnMonster(monster, WhereToPlace()))
+                {
+                    successfulSpawns++;
+                }
             }
+
+            if (successfulSpawns > 0)
+            {
+                // Play sound or show feedback for successful spawn
+                Game1.playSound("axe");
+                // Optionally, show a message with the number of successfully spawned monsters
+                Game1.addHUDMessage(new HUDMessage($"Spawned {successfulSpawns} {monsterData.Displayname}{(successfulSpawns == 1 ? "" : "'s")}", 2));
+
+            }
+
             base.receiveLeftClick(x, y, playSound);
         }
+
 
 
         private Vector2 WhereToPlace()
